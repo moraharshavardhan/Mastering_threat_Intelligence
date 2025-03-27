@@ -1,0 +1,45 @@
+import requests
+import json
+import time
+from datetime import datetime
+
+# List of known malicious IPs for demonstration (could be fetched from threat intelligence providers)
+malicious_ips = [
+    "192.168.1.10", "185.199.108.13", "45.67.89.12", "192.168.1.15"
+]
+
+# Sample data representing network traffic logs
+network_traffic_logs = [
+    {"timestamp": "2025-03-26T12:01:00", "source_ip": "192.168.1.10", "destination_ip": "10.0.0.5", "protocol": "HTTP"},
+    {"timestamp": "2025-03-26T12:05:00", "source_ip": "192.168.1.11", "destination_ip": "10.0.0.7", "protocol": "FTP"},
+    {"timestamp": "2025-03-26T12:10:00", "source_ip": "185.199.108.13", "destination_ip": "10.0.0.8", "protocol": "HTTPS"},
+    {"timestamp": "2025-03-26T12:15:00", "source_ip": "192.168.1.10", "destination_ip": "10.0.0.6", "protocol": "HTTP"}
+]
+
+# Function to check if any of the IPs are malicious
+def check_malicious_ips(traffic_log):
+    return traffic_log['source_ip'] in malicious_ips
+
+# Function to simulate blocking malicious IP
+def block_ip(ip):
+    print(f"[{datetime.now()}] Blocking malicious IP: {ip}")
+    # In a real-world scenario, you would use a firewall or network system API to block this IP
+    return True
+
+# Function to analyze network traffic
+def analyze_traffic(logs):
+    for log in logs:
+        if check_malicious_ips(log):
+            print(f"[{log['timestamp']}] ALERT: Malicious traffic detected from IP {log['source_ip']}")
+            block_ip(log['source_ip'])
+
+# Function to simulate real-time monitoring
+def real_time_monitoring():
+    while True:
+        print(f"[{datetime.now()}] Analyzing network traffic...")
+        analyze_traffic(network_traffic_logs)
+        time.sleep(10)  # Simulate checking traffic every 10 seconds
+
+# Starting the real-time monitoring system
+if _name_ == "_main_":
+    real_time_monitoring().
